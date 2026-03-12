@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IndigoGo — Тренировка голоса и речи в Telegram</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --indigo-50: #eef2ff;
+      --indigo-100: #e0e7ff;
+      --indigo-500: #6366f1;
+      --indigo-600: #4f46e5;
+      --indigo-700: #4338ca;
+      --indigo-800: #3730a3;
+      --indigo-900: #312e81;
+      --amber-400: #fbbf24;
+      --amber-500: #f59e0b;
+      --amber-600: #d97706;
+      --white: #ffffff;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--gray-900);
+      background: var(--white);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 14px 0;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--indigo-700);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--amber-500); }
+    .header-cta {
+      background: var(--indigo-600);
+      color: var(--white);
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .header-cta:hover { background: var(--indigo-700); }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(135deg, var(--indigo-900) 0%, var(--indigo-700) 60%, #5b21b6 100%);
+      color: var(--white);
+      padding: 80px 0 90px;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245,158,11,0.2);
+      border: 1px solid rgba(245,158,11,0.4);
+      color: var(--amber-400);
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+      letter-spacing: 0.02em;
+    }
+    .hero-badge::before { content: '★'; }
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+      max-width: 700px;
+    }
+    h1 .highlight { color: var(--amber-400); }
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      opacity: 0.9;
+      max-width: 560px;
+      line-height: 1.65;
+      margin-bottom: 36px;
+    }
+    .hero-cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+    .btn-primary {
+      display: inline-block;
+      background: var(--amber-500);
+      color: var(--gray-900);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 15px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: transform 0.15s, background 0.2s;
+      box-shadow: 0 4px 20px rgba(245,158,11,0.4);
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary:hover { background: var(--amber-600); transform: translateY(-2px); }
+    .hero-note {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      margin-top: 16px;
+    }
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+      margin-top: 52px;
+      padding-top: 36px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+    .stat { text-align: left; }
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--amber-400);
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.85rem; opacity: 0.75; margin-top: 4px; }
+
+    /* ===== PROBLEMS ===== */
+    .section { padding: 80px 0; }
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--indigo-600);
+      margin-bottom: 12px;
+    }
+    h2 {
+      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-lead {
+      font-size: 1.1rem;
+      color: var(--gray-600);
+      max-width: 600px;
+      margin-bottom: 48px;
+    }
+    .problems { background: var(--gray-50); }
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .problem-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 14px;
+      padding: 24px;
+      transition: box-shadow 0.2s;
+    }
+    .problem-card:hover { box-shadow: 0 6px 24px rgba(67,56,202,0.1); }
+    .problem-icon {
+      font-size: 2rem;
+      margin-bottom: 14px;
+    }
+    .problem-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--gray-800);
+    }
+    .problem-card p {
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      line-height: 1.5;
+    }
+    .problem-footer {
+      margin-top: 40px;
+      padding: 24px;
+      background: var(--indigo-50);
+      border: 1px solid var(--indigo-100);
+      border-radius: 14px;
+      text-align: center;
+      font-size: 1.05rem;
+      color: var(--indigo-800);
+      font-weight: 500;
+    }
+    .problem-footer strong { color: var(--indigo-700); }
+
+    /* ===== HOW IT WORKS ===== */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 28px;
+      margin-top: 12px;
+    }
+    .step {
+      text-align: center;
+      padding: 28px 20px;
+      position: relative;
+    }
+    .step-num {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, var(--indigo-600), var(--indigo-500));
+      color: var(--white);
+      font-size: 1.3rem;
+      font-weight: 800;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+      box-shadow: 0 4px 16px rgba(99,102,241,0.35);
+    }
+    .step h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--gray-800);
+    }
+    .step p {
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      line-height: 1.55;
+    }
+    .section-cta-inline {
+      text-align: center;
+      margin-top: 44px;
+    }
+
+    /* ===== TEACHER ===== */
+    .teacher { background: linear-gradient(135deg, var(--indigo-900) 0%, var(--indigo-800) 100%); color: var(--white); }
+    .teacher-inner {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 52px;
+      align-items: center;
+    }
+    @media (max-width: 700px) {
+      .teacher-inner { grid-template-columns: 1fr; }
+    }
+    .teacher-photo {
+      width: 100%;
+      max-width: 280px;
+      aspect-ratio: 3/4;
+      border-radius: 20px;
+      background: linear-gradient(180deg, var(--indigo-600) 0%, var(--indigo-800) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      margin: 0 auto;
+    }
+    .teacher-name {
+      font-size: 1.9rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+    .teacher-title {
+      color: var(--amber-400);
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+    .teacher-bio {
+      font-size: 1rem;
+      opacity: 0.88;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .teacher-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .badge {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--white);
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 0.82rem;
+      font-weight: 500;
+    }
+
+    /* ===== PRICING ===== */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 12px;
+    }
+    .price-card {
+      border: 2px solid var(--gray-200);
+      border-radius: 20px;
+      padding: 36px 32px;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .price-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(67,56,202,0.12); }
+    .price-card.featured {
+      border-color: var(--indigo-500);
+      background: linear-gradient(135deg, var(--indigo-50) 0%, #fff 100%);
+    }
+    .price-popular {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--amber-500);
+      color: var(--gray-900);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 16px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+    .price-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--indigo-700);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .price-amount {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--gray-900);
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+    .price-period {
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      margin-bottom: 6px;
+    }
+    .price-annual {
+      font-size: 0.85rem;
+      color: var(--indigo-600);
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+    .price-features {
+      list-style: none;
+      margin-bottom: 28px;
+    }
+    .price-features li {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: 0.95rem;
+      color: var(--gray-700);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .price-features li:last-child { border-bottom: none; }
+    .price-features li::before {
+      content: '✓';
+      color: var(--indigo-600);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .price-features li.extra::before { color: var(--amber-500); }
+    .price-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.15s, background 0.2s;
+    }
+    .price-btn:hover { transform: translateY(-2px); }
+    .price-btn-primary {
+      background: var(--indigo-600);
+      color: var(--white);
+      box-shadow: 0 4px 16px rgba(79,70,229,0.35);
+    }
+    .price-btn-primary:hover { background: var(--indigo-700); }
+    .price-btn-secondary {
+      background: var(--indigo-50);
+      color: var(--indigo-700);
+      border: 2px solid var(--indigo-200);
+    }
+    .price-btn-secondary:hover { background: var(--indigo-100); }
+    .price-trial {
+      text-align: center;
+      margin-top: 28px;
+      font-size: 0.9rem;
+      color: var(--gray-600);
+    }
+    .price-trial a { color: var(--indigo-600); font-weight: 600; text-decoration: none; }
+
+    /* ===== REVIEWS ===== */
+    .reviews { background: var(--gray-50); }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .review-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 28px;
+      border: 1px solid var(--gray-200);
+    }
+    .review-stars {
+      color: var(--amber-500);
+      font-size: 1.1rem;
+      margin-bottom: 14px;
+    }
+    .review-text {
+      font-size: 0.95rem;
+      color: var(--gray-700);
+      line-height: 1.65;
+      margin-bottom: 18px;
+      font-style: italic;
+    }
+    .review-author {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--gray-800);
+    }
+    .review-role {
+      font-size: 0.82rem;
+      color: var(--gray-500);
+    }
+
+    /* ===== FAQ ===== */
+    .faq-list { max-width: 740px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid var(--gray-200);
+      padding: 24px 0;
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--gray-800);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 12px;
+      user-select: none;
+    }
+    .faq-q::after {
+      content: '+';
+      font-size: 1.5rem;
+      color: var(--indigo-500);
+      flex-shrink: 0;
+      line-height: 1.2;
+    }
+    .faq-q.open::after { content: '−'; }
+    .faq-a {
+      font-size: 0.95rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+      margin-top: 14px;
+      display: none;
+    }
+    .faq-a.open { display: block; }
+
+    /* ===== FINAL CTA ===== */
+    .final-cta {
+      background: linear-gradient(135deg, var(--indigo-900) 0%, var(--indigo-700) 100%);
+      color: var(--white);
+      text-align: center;
+      padding: 90px 0;
+    }
+    .final-cta h2 { color: var(--white); margin-bottom: 16px; max-width: 600px; margin-left: auto; margin-right: auto; }
+    .final-cta p {
+      font-size: 1.1rem;
+      opacity: 0.85;
+      max-width: 500px;
+      margin: 0 auto 44px;
+    }
+
+    /* ===== FORM ===== */
+    .form-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 36px;
+      max-width: 480px;
+      margin: 0 auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+    .form-card h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--gray-900);
+      margin-bottom: 6px;
+    }
+    .form-card p {
+      font-size: 0.9rem;
+      color: var(--gray-500);
+      margin-bottom: 24px;
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 6px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid var(--gray-200);
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+      color: var(--gray-900);
+    }
+    .form-group input:focus { border-color: var(--indigo-500); }
+    .form-submit {
+      width: 100%;
+      background: var(--indigo-600);
+      color: var(--white);
+      border: none;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s, transform 0.15s;
+      font-family: inherit;
+      box-shadow: 0 4px 16px rgba(79,70,229,0.4);
+    }
+    .form-submit:hover { background: var(--indigo-700); transform: translateY(-1px); }
+    .form-note {
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      text-align: center;
+      margin-top: 12px;
+    }
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      color: var(--indigo-700);
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--gray-900);
+      color: var(--gray-400);
+      padding: 32px 0;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+    footer .logo { color: var(--white); margin-bottom: 8px; display: block; }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 640px) {
+      .section { padding: 56px 0; }
+      .hero { padding: 56px 0 64px; }
+      .hero-stats { gap: 20px; }
+      .teacher-inner { text-align: center; }
+      .teacher-badges { justify-content: center; }
+      .form-card { padding: 28px 20px; }
+      header .header-cta { padding: 8px 16px; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="container header-inner">
+    <a href="#" class="logo">Indigo<span>Go</span></a>
+    <a href="#form" class="header-cta">Оставить заявку</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">75 000 учеников уже изменили свой голос</div>
+    <h1>Стань человеком, которого невозможно <span class="highlight">не слушать</span></h1>
+    <p class="hero-sub">Тренировки голоса и речи в Telegram с живым педагогом. 15 минут в день — и ты другой человек через 2 месяца.</p>
+    <div class="hero-cta-group">
+      <a href="#form" class="btn-primary">Оставить заявку →</a>
+    </div>
+    <p class="hero-note">Консультант свяжется с тобой и подберёт тариф</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">75 000</div>
+        <div class="stat-label">учеников</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">10+ лет</div>
+        <div class="stat-label">преподаёт Денис</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">15 мин</div>
+        <div class="stat-label">в день</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">24 ч</div>
+        <div class="stat-label">обратная связь</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMS -->
+<section class="section problems">
+  <div class="container">
+    <div class="section-label">Узнаёшь себя?</div>
+    <h2>Голос тебя подводит — а ты знаешь это</h2>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon">😖</div>
+        <h3>Смотришь свои видео — и не можешь слышать себя</h3>
+        <p>Собственный голос кажется чужим, неприятным, слабым.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🙉</div>
+        <h3>На совещании говоришь, но тебя будто не слышат</h3>
+        <p>Твои слова растворяются, тебя перебивают или просто игнорируют.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">😰</div>
+        <h3>Перед камерой или залом — ступор</h3>
+        <p>Сердце колотится, голос дрожит, мысли разбегаются.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">😶</div>
+        <h3>Картавость или шепелявость</h3>
+        <p>Стесняешься говорить громко, избегаешь ситуаций где надо говорить.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🤕</div>
+        <h3>Голос садится и хрипнет</h3>
+        <p>После пары часов работы голос уже не тот — устаёт, сипит.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🏃</div>
+        <h3>Говоришь быстро, проглатываешь слова</h3>
+        <p>Потом переспрашивают снова и снова — это раздражает обоих.</p>
+      </div>
+    </div>
+    <div class="problem-footer">
+      Это не «ты такой». Это — навык, которому <strong>никто не учил</strong>.<br>
+      А значит, его можно поставить.
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="container">
+    <div class="section-label">Как работает</div>
+    <h2>IndigoGo — тренировка голоса прямо в Telegram</h2>
+    <p class="section-lead">Никаких скучных упражнений перед зеркалом. 6 месяцев, 15 минут в день, живой педагог.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Ежедневные задания в боте</h3>
+        <p>Открываешь Telegram, делаешь упражнение. Артикуляция, дыхание, дикция, голос, импровизация — всё в одном месте.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Обратная связь за 24 часа</h3>
+        <p>Записываешь себя, отправляешь педагогу. Он слышит каждую деталь и говорит, что именно исправить.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Живые Zoom-сессии по субботам</h3>
+        <p>Раз в неделю — встреча с Денисом. Разбор, вопросы, практика в группе.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>YouTube-эфиры каждое воскресенье</h3>
+        <p>Дополнительный разбор тем, ответы на вопросы, практика в прямом эфире.</p>
+      </div>
+    </div>
+    <div class="section-cta-inline">
+      <a href="#form" class="btn-primary">Записаться в ближайший поток →</a>
+    </div>
+  </div>
+</section>
+
+<!-- TEACHER -->
+<section class="section teacher" id="teacher">
+  <div class="container">
+    <div class="teacher-inner">
+      <div>
+        <div class="teacher-photo">👨‍🏫</div>
+      </div>
+      <div>
+        <div class="section-label" style="color: var(--amber-400);">Педагог</div>
+        <div class="teacher-name">Денис Швец</div>
+        <div class="teacher-title">Педагог по голосу и речи · Автор методики</div>
+        <p class="teacher-bio">
+          Денис не из тех, кто читает лекции по учебнику. Он актёр по образованию (СПбГУ),
+          преподаёт уже больше 10 лет и обучил 75&nbsp;000 человек — от блогеров до топ-менеджеров.<br><br>
+          В 2017 году он защитил собственную методику в институте — и с тех пор она работает
+          на тысячи голосов по всей стране.<br><br>
+          Денис — член Российской общественной академии голоса, спикер федеральных проектов
+          и бизнес-клубов. Но главное: он слышит твой голос и точно знает, что с ним делать.
+        </p>
+        <div class="teacher-badges">
+          <span class="badge">Академия голоса РФ</span>
+          <span class="badge">Спикер федеральных проектов</span>
+          <span class="badge">СПбГУ, актёрское</span>
+          <span class="badge">Методика с 2017</span>
+        </div>
+        <br>
+        <a href="#form" style="display:inline-block; background:var(--amber-500); color:var(--gray-900); padding:13px 26px; border-radius:10px; font-weight:700; text-decoration:none; margin-top:8px;">Начать с Денисом →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="section-label">Тарифы</div>
+    <h2>Выбери свой формат</h2>
+    <p class="section-lead">Оба тарифа включают живого педагога и ежедневную программу в Telegram.</p>
+    <div class="pricing-grid">
+      <!-- Standard -->
+      <div class="price-card">
+        <div class="price-name">Стандарт</div>
+        <div class="price-amount">$49</div>
+        <div class="price-period">в месяц</div>
+        <div class="price-annual">или $499 / год — экономия $89</div>
+        <ul class="price-features">
+          <li>Ежедневные задания в Telegram</li>
+          <li>Обратная связь от сертифицированного педагога в течение 24ч</li>
+          <li>Еженедельные Zoom-сессии с Денисом</li>
+          <li>YouTube-эфиры каждое воскресенье</li>
+        </ul>
+        <button class="price-btn price-btn-secondary" onclick="openForm('Стандарт')">Начать за $49</button>
+      </div>
+      <!-- Premium -->
+      <div class="price-card featured">
+        <div class="price-popular">⭐ Популярный выбор</div>
+        <div class="price-name" style="color: var(--indigo-700);">Премиум</div>
+        <div class="price-amount">$69</div>
+        <div class="price-period">в месяц</div>
+        <div class="price-annual">или $799 / год — экономия $29</div>
+        <ul class="price-features">
+          <li>Ежедневные задания в Telegram</li>
+          <li>Обратная связь от сертифицированного педагога в течение 24ч</li>
+          <li>Еженедельные Zoom-сессии с Денисом</li>
+          <li>YouTube-эфиры каждое воскресенье</li>
+          <li class="extra"><strong>Обратная связь лично от Дениса Швеца</strong></li>
+          <li class="extra"><strong>Максимальный прогресс за счёт разбора от автора методики</strong></li>
+        </ul>
+        <button class="price-btn price-btn-primary" onclick="openForm('Премиум')">Записаться в Премиум</button>
+      </div>
+    </div>
+    <p class="price-trial">Хочешь попробовать? Одна неделя: <a href="#form" onclick="openForm('Стандарт — неделя')">Стандарт — $13</a> · <a href="#form" onclick="openForm('Премиум — неделя')">Премиум — $18</a></p>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="section reviews">
+  <div class="container">
+    <div class="section-label">Отзывы</div>
+    <h2>Что говорят ученики</h2>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">«За два месяца я перестал бояться публичных выступлений. Голос стал увереннее, я начал слышать себя по-другому. Метод работает.»</p>
+        <div class="review-author">Алексей К.</div>
+        <div class="review-role">Руководитель отдела продаж</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">«Картавость была с детства, думала, это на всю жизнь. Три месяца с Денисом — и звук Р встал на место. Это реально работает.»</p>
+        <div class="review-author">Марина Д.</div>
+        <div class="review-role">Блогер, 180k подписчиков</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">«15 минут в день — это реально. Делаю перед работой. Через месяц на переговорах заметили: "ты стал говорить по-другому". Это лучший комплимент.»</p>
+        <div class="review-author">Дмитрий Р.</div>
+        <div class="review-role">Предприниматель</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-label">FAQ</div>
+    <h2 style="text-align:center; margin-bottom: 44px;">Частые вопросы</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">15 минут в день — это реально работает?</div>
+        <div class="faq-a">Да, именно в этом суть системы Кайдзен. Небольшие ежедневные упражнения дают стабильный прогресс без выгорания. 75 000 учеников Дениса это подтверждают.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Я живу в другом городе или стране — подойдёт?</div>
+        <div class="faq-a">Программа полностью онлайн. Telegram, Zoom и YouTube — доступно из любой точки мира.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Это поможет при картавости или шепелявости?</div>
+        <div class="faq-a">Да. Блок артикуляции и дикции создан именно для коррекции этих особенностей. Педагог слышит каждое твоё задание и даёт точечную обратную связь.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Что если я уже пробовал упражнения в YouTube и ничего не вышло?</div>
+        <div class="faq-a">Упражнения без обратной связи — как качать мышцу с неправильной техникой. Прогресс есть, но маленький. Живой педагог слышит ошибку и исправляет её сразу.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Могу я остановиться и продолжить позже?</div>
+        <div class="faq-a">Да. Темп программы гибкий. Если пропустил неделю — продолжаешь с того места, где остановился.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA + FORM -->
+<section class="final-cta" id="form">
+  <div class="container">
+    <h2>Готов поставить голос, который слышат?</h2>
+    <p>Оставь заявку — консультант подберёт тариф и запишет в ближайший поток</p>
+    <div class="form-card">
+      <h3>Оставить заявку</h3>
+      <p>Ответим в течение нескольких часов</p>
+      <form id="lead-form" onsubmit="submitForm(event)">
+        <div class="form-group">
+          <label for="name">Имя</label>
+          <input type="text" id="name" name="name" placeholder="Как тебя зовут?" required />
+        </div>
+        <div class="form-group">
+          <label for="contact">Телефон или Telegram</label>
+          <input type="text" id="contact" name="contact" placeholder="+7 999 000 00 00 или @username" required />
+        </div>
+        <input type="hidden" id="selected-plan" name="plan" value="" />
+        <button type="submit" class="form-submit">Оставить заявку →</button>
+        <p class="form-note">Нажимая кнопку, ты соглашаешься с обработкой персональных данных</p>
+      </form>
+      <div class="form-success" id="form-success">
+        ✅ Заявка принята! Консультант свяжется с тобой в ближайшее время.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <a href="#" class="logo">Indigo<span style="color:var(--amber-500)">Go</span></a>
+    <p>© 2026 IndigoGo. Тренировка голоса и речи с живым педагогом.</p>
+  </div>
+</footer>
+
+<script>
+  // FAQ toggle
+  function toggleFaq(el) {
+    el.classList.toggle('open');
+    const answer = el.nextElementSibling;
+    answer.classList.toggle('open');
+  }
+
+  // Pre-select plan from pricing buttons
+  function openForm(planName) {
+    document.getElementById('selected-plan').value = planName;
+    document.getElementById('form').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Form submission
+  async function submitForm(e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const contact = document.getElementById('contact').value.trim();
+    const plan = document.getElementById('selected-plan').value;
+
+    const WEBHOOK_URL = 'https://hook.eu2.make.com/REPLACE_WITH_WEBHOOK'; // TODO: replace with real webhook
+
+    try {
+      await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, contact, plan, source: 'landing', ts: new Date().toISOString() }),
+        mode: 'no-cors'
+      });
+    } catch(_) {}
+
+    document.getElementById('lead-form').style.display = 'none';
+    document.getElementById('form-success').style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
