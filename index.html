@@ -4,27 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IndigoGo — Тренировка голоса и речи в Telegram</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.cdnfonts.com" crossorigin />
+  <link href="https://fonts.cdnfonts.com/css/circe" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --indigo-50: #eef2ff;
-      --indigo-100: #e0e7ff;
-      --indigo-500: #6366f1;
-      --indigo-600: #4f46e5;
-      --indigo-700: #4338ca;
-      --indigo-800: #3730a3;
-      --indigo-900: #312e81;
-      --amber-400: #fbbf24;
-      --amber-500: #f59e0b;
-      --amber-600: #d97706;
-      --white: #ffffff;
-      --gray-50: #f9fafb;
+      --brand-purple:  #591380;
+      --brand-magenta: #bb0c84;
+      --brand-indigo:  #191d7f;
+      --brand-red:     #d83a4e;
+      --white:         #ffffff;
+      --gray-50:  #f9fafb;
       --gray-100: #f3f4f6;
       --gray-200: #e5e7eb;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
       --gray-600: #4b5563;
       --gray-700: #374151;
       --gray-800: #1f2937;
@@ -34,11 +29,16 @@
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Circe', -apple-system, BlinkMacSystemFont, sans-serif;
       color: var(--gray-900);
       background: var(--white);
       line-height: 1.6;
       font-size: 16px;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'SF Pro Text', system-ui, -apple-system, BlinkMacSystemFont, 'Circe', sans-serif;
+      font-weight: 700;
     }
 
     .container {
@@ -65,26 +65,45 @@
     .logo {
       font-size: 1.4rem;
       font-weight: 800;
-      color: var(--indigo-700);
+      color: var(--brand-purple);
       text-decoration: none;
       letter-spacing: -0.5px;
+      font-family: 'SF Pro Text', system-ui, -apple-system, sans-serif;
     }
-    .logo span { color: var(--amber-500); }
+    .logo span { color: var(--brand-magenta); }
     .header-cta {
-      background: var(--indigo-600);
+      background: var(--brand-magenta);
       color: var(--white);
       padding: 10px 22px;
       border-radius: 8px;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.9rem;
       text-decoration: none;
       transition: background 0.2s;
     }
-    .header-cta:hover { background: var(--indigo-700); }
+    .header-cta:hover { background: var(--brand-purple); }
+
+    /* ===== BUTTONS ===== */
+    .btn-primary {
+      display: inline-block;
+      background: var(--brand-magenta);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 15px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: transform 0.15s, background 0.2s;
+      box-shadow: 0 4px 20px rgba(187,12,132,0.4);
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+    .btn-primary:hover { background: var(--brand-purple); transform: translateY(-2px); }
 
     /* ===== HERO ===== */
     .hero {
-      background: linear-gradient(135deg, var(--indigo-900) 0%, var(--indigo-700) 60%, #5b21b6 100%);
+      background: linear-gradient(135deg, var(--brand-indigo) 0%, var(--brand-purple) 65%, #7a1a9e 100%);
       color: var(--white);
       padding: 80px 0 90px;
       overflow: hidden;
@@ -97,33 +116,33 @@
       right: -20%;
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(187,12,132,0.25) 0%, transparent 70%);
       border-radius: 50%;
     }
     .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(245,158,11,0.2);
-      border: 1px solid rgba(245,158,11,0.4);
-      color: var(--amber-400);
+      background: rgba(216,58,78,0.2);
+      border: 1px solid rgba(216,58,78,0.45);
+      color: #ff8a99;
       padding: 6px 14px;
       border-radius: 100px;
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 24px;
       letter-spacing: 0.02em;
     }
     .hero-badge::before { content: '★'; }
     h1 {
       font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 900;
+      font-weight: 700;
       line-height: 1.15;
       letter-spacing: -1px;
       margin-bottom: 20px;
       max-width: 700px;
     }
-    h1 .highlight { color: var(--amber-400); }
+    h1 .highlight { color: #ff8a99; }
     .hero-sub {
       font-size: clamp(1rem, 2.5vw, 1.2rem);
       opacity: 0.9;
@@ -137,21 +156,6 @@
       gap: 14px;
       align-items: center;
     }
-    .btn-primary {
-      display: inline-block;
-      background: var(--amber-500);
-      color: var(--gray-900);
-      font-weight: 700;
-      font-size: 1rem;
-      padding: 15px 32px;
-      border-radius: 10px;
-      text-decoration: none;
-      transition: transform 0.15s, background 0.2s;
-      box-shadow: 0 4px 20px rgba(245,158,11,0.4);
-      cursor: pointer;
-      border: none;
-    }
-    .btn-primary:hover { background: var(--amber-600); transform: translateY(-2px); }
     .hero-note {
       font-size: 0.85rem;
       opacity: 0.7;
@@ -169,24 +173,54 @@
     .stat-num {
       font-size: 2rem;
       font-weight: 800;
-      color: var(--amber-400);
+      color: #ff8a99;
       line-height: 1;
     }
     .stat-label { font-size: 0.85rem; opacity: 0.75; margin-top: 4px; }
 
-    /* ===== PROBLEMS ===== */
+    /* ===== HERO INLINE FORM ===== */
+    .hero-content-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 52px;
+      align-items: start;
+    }
+    @media (max-width: 800px) {
+      .hero-content-wrap { grid-template-columns: 1fr; }
+    }
+    .hero-form-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 32px 28px;
+      margin-top: 8px;
+    }
+    .hero-form-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .hero-form-card > p {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 20px;
+    }
+
+    /* ===== SECTIONS ===== */
     .section { padding: 80px 0; }
     .section-label {
       font-size: 0.8rem;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--indigo-600);
+      color: var(--brand-magenta);
       margin-bottom: 12px;
     }
     h2 {
       font-size: clamp(1.7rem, 3.5vw, 2.4rem);
-      font-weight: 800;
+      font-weight: 700;
       letter-spacing: -0.5px;
       line-height: 1.2;
       margin-bottom: 16px;
@@ -197,6 +231,8 @@
       max-width: 600px;
       margin-bottom: 48px;
     }
+
+    /* ===== PROBLEMS ===== */
     .problems { background: var(--gray-50); }
     .problem-grid {
       display: grid;
@@ -210,11 +246,8 @@
       padding: 24px;
       transition: box-shadow 0.2s;
     }
-    .problem-card:hover { box-shadow: 0 6px 24px rgba(67,56,202,0.1); }
-    .problem-icon {
-      font-size: 2rem;
-      margin-bottom: 14px;
-    }
+    .problem-card:hover { box-shadow: 0 6px 24px rgba(89,19,128,0.12); }
+    .problem-icon { font-size: 2rem; margin-bottom: 14px; }
     .problem-card h3 {
       font-size: 1rem;
       font-weight: 700;
@@ -229,15 +262,15 @@
     .problem-footer {
       margin-top: 40px;
       padding: 24px;
-      background: var(--indigo-50);
-      border: 1px solid var(--indigo-100);
+      background: rgba(89,19,128,0.06);
+      border: 1px solid rgba(89,19,128,0.15);
       border-radius: 14px;
       text-align: center;
       font-size: 1.05rem;
-      color: var(--indigo-800);
+      color: var(--brand-purple);
       font-weight: 500;
     }
-    .problem-footer strong { color: var(--indigo-700); }
+    .problem-footer strong { color: var(--brand-purple); font-weight: 700; }
 
     /* ===== HOW IT WORKS ===== */
     .steps {
@@ -249,12 +282,11 @@
     .step {
       text-align: center;
       padding: 28px 20px;
-      position: relative;
     }
     .step-num {
       width: 52px;
       height: 52px;
-      background: linear-gradient(135deg, var(--indigo-600), var(--indigo-500));
+      background: linear-gradient(135deg, var(--brand-purple), var(--brand-magenta));
       color: var(--white);
       font-size: 1.3rem;
       font-weight: 800;
@@ -263,7 +295,7 @@
       align-items: center;
       justify-content: center;
       margin: 0 auto 18px;
-      box-shadow: 0 4px 16px rgba(99,102,241,0.35);
+      box-shadow: 0 4px 16px rgba(89,19,128,0.35);
     }
     .step h3 {
       font-size: 1rem;
@@ -282,7 +314,10 @@
     }
 
     /* ===== TEACHER ===== */
-    .teacher { background: linear-gradient(135deg, var(--indigo-900) 0%, var(--indigo-800) 100%); color: var(--white); }
+    .teacher {
+      background: linear-gradient(135deg, var(--brand-indigo) 0%, var(--brand-purple) 100%);
+      color: var(--white);
+    }
     .teacher-inner {
       display: grid;
       grid-template-columns: 1fr 2fr;
@@ -297,7 +332,7 @@
       max-width: 280px;
       aspect-ratio: 3/4;
       border-radius: 20px;
-      background: linear-gradient(180deg, var(--indigo-600) 0%, var(--indigo-800) 100%);
+      background: linear-gradient(180deg, rgba(187,12,132,0.5) 0%, rgba(25,29,127,0.6) 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -306,12 +341,12 @@
     }
     .teacher-name {
       font-size: 1.9rem;
-      font-weight: 800;
+      font-weight: 700;
       margin-bottom: 8px;
       letter-spacing: -0.5px;
     }
     .teacher-title {
-      color: var(--amber-400);
+      color: #ff8a99;
       font-weight: 600;
       font-size: 1rem;
       margin-bottom: 20px;
@@ -322,11 +357,7 @@
       line-height: 1.7;
       margin-bottom: 28px;
     }
-    .teacher-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
+    .teacher-badges { display: flex; flex-wrap: wrap; gap: 10px; }
     .badge {
       background: rgba(255,255,255,0.12);
       border: 1px solid rgba(255,255,255,0.2);
@@ -351,18 +382,18 @@
       position: relative;
       transition: transform 0.2s, box-shadow 0.2s;
     }
-    .price-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(67,56,202,0.12); }
+    .price-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(89,19,128,0.12); }
     .price-card.featured {
-      border-color: var(--indigo-500);
-      background: linear-gradient(135deg, var(--indigo-50) 0%, #fff 100%);
+      border-color: var(--brand-magenta);
+      background: linear-gradient(135deg, rgba(89,19,128,0.05) 0%, #fff 100%);
     }
     .price-popular {
       position: absolute;
       top: -14px;
       left: 50%;
       transform: translateX(-50%);
-      background: var(--amber-500);
-      color: var(--gray-900);
+      background: var(--brand-red);
+      color: var(--white);
       font-size: 0.78rem;
       font-weight: 700;
       padding: 4px 16px;
@@ -372,7 +403,7 @@
     .price-name {
       font-size: 1.1rem;
       font-weight: 700;
-      color: var(--indigo-700);
+      color: var(--brand-purple);
       margin-bottom: 10px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -391,7 +422,7 @@
     }
     .price-annual {
       font-size: 0.85rem;
-      color: var(--indigo-600);
+      color: var(--brand-purple);
       font-weight: 600;
       margin-bottom: 24px;
     }
@@ -411,12 +442,12 @@
     .price-features li:last-child { border-bottom: none; }
     .price-features li::before {
       content: '✓';
-      color: var(--indigo-600);
+      color: var(--brand-purple);
       font-weight: 700;
       flex-shrink: 0;
       margin-top: 1px;
     }
-    .price-features li.extra::before { color: var(--amber-500); }
+    .price-features li.extra::before { color: var(--brand-magenta); }
     .price-btn {
       display: block;
       width: 100%;
@@ -429,27 +460,32 @@
       cursor: pointer;
       border: none;
       transition: transform 0.15s, background 0.2s;
+      font-family: inherit;
     }
     .price-btn:hover { transform: translateY(-2px); }
     .price-btn-primary {
-      background: var(--indigo-600);
+      background: var(--brand-magenta);
       color: var(--white);
-      box-shadow: 0 4px 16px rgba(79,70,229,0.35);
+      box-shadow: 0 4px 16px rgba(187,12,132,0.35);
     }
-    .price-btn-primary:hover { background: var(--indigo-700); }
+    .price-btn-primary:hover { background: var(--brand-purple); }
     .price-btn-secondary {
-      background: var(--indigo-50);
-      color: var(--indigo-700);
-      border: 2px solid var(--indigo-200);
+      background: rgba(89,19,128,0.07);
+      color: var(--brand-purple);
+      border: 2px solid rgba(89,19,128,0.2);
     }
-    .price-btn-secondary:hover { background: var(--indigo-100); }
-    .price-trial {
+    .price-btn-secondary:hover { background: rgba(89,19,128,0.13); }
+    .price-note {
       text-align: center;
       margin-top: 28px;
       font-size: 0.9rem;
       color: var(--gray-600);
     }
-    .price-trial a { color: var(--indigo-600); font-weight: 600; text-decoration: none; }
+    .price-note a {
+      color: var(--brand-magenta);
+      font-weight: 600;
+      text-decoration: none;
+    }
 
     /* ===== REVIEWS ===== */
     .reviews { background: var(--gray-50); }
@@ -464,11 +500,7 @@
       padding: 28px;
       border: 1px solid var(--gray-200);
     }
-    .review-stars {
-      color: var(--amber-500);
-      font-size: 1.1rem;
-      margin-bottom: 14px;
-    }
+    .review-stars { color: var(--brand-red); font-size: 1.1rem; margin-bottom: 14px; }
     .review-text {
       font-size: 0.95rem;
       color: var(--gray-700);
@@ -476,22 +508,12 @@
       margin-bottom: 18px;
       font-style: italic;
     }
-    .review-author {
-      font-weight: 700;
-      font-size: 0.9rem;
-      color: var(--gray-800);
-    }
-    .review-role {
-      font-size: 0.82rem;
-      color: var(--gray-500);
-    }
+    .review-author { font-weight: 700; font-size: 0.9rem; color: var(--gray-800); }
+    .review-role { font-size: 0.82rem; color: var(--gray-500); }
 
     /* ===== FAQ ===== */
     .faq-list { max-width: 740px; margin: 0 auto; }
-    .faq-item {
-      border-bottom: 1px solid var(--gray-200);
-      padding: 24px 0;
-    }
+    .faq-item { border-bottom: 1px solid var(--gray-200); padding: 24px 0; }
     .faq-item:last-child { border-bottom: none; }
     .faq-q {
       font-size: 1.05rem;
@@ -507,7 +529,7 @@
     .faq-q::after {
       content: '+';
       font-size: 1.5rem;
-      color: var(--indigo-500);
+      color: var(--brand-magenta);
       flex-shrink: 0;
       line-height: 1.2;
     }
@@ -523,12 +545,18 @@
 
     /* ===== FINAL CTA ===== */
     .final-cta {
-      background: linear-gradient(135deg, var(--indigo-900) 0%, var(--indigo-700) 100%);
+      background: linear-gradient(135deg, var(--brand-indigo) 0%, var(--brand-purple) 100%);
       color: var(--white);
       text-align: center;
       padding: 90px 0;
     }
-    .final-cta h2 { color: var(--white); margin-bottom: 16px; max-width: 600px; margin-left: auto; margin-right: auto; }
+    .final-cta h2 {
+      color: var(--white);
+      margin-bottom: 16px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
     .final-cta p {
       font-size: 1.1rem;
       opacity: 0.85;
@@ -547,11 +575,11 @@
     }
     .form-card h3 {
       font-size: 1.3rem;
-      font-weight: 800;
+      font-weight: 700;
       color: var(--gray-900);
       margin-bottom: 6px;
     }
-    .form-card p {
+    .form-card > p {
       font-size: 0.9rem;
       color: var(--gray-500);
       margin-bottom: 24px;
@@ -575,10 +603,10 @@
       transition: border-color 0.2s;
       color: var(--gray-900);
     }
-    .form-group input:focus { border-color: var(--indigo-500); }
+    .form-group input:focus { border-color: var(--brand-magenta); }
     .form-submit {
       width: 100%;
-      background: var(--indigo-600);
+      background: var(--brand-magenta);
       color: var(--white);
       border: none;
       padding: 15px;
@@ -589,9 +617,9 @@
       margin-top: 8px;
       transition: background 0.2s, transform 0.15s;
       font-family: inherit;
-      box-shadow: 0 4px 16px rgba(79,70,229,0.4);
+      box-shadow: 0 4px 16px rgba(187,12,132,0.4);
     }
-    .form-submit:hover { background: var(--indigo-700); transform: translateY(-1px); }
+    .form-submit:hover { background: var(--brand-purple); transform: translateY(-1px); }
     .form-note {
       font-size: 0.8rem;
       color: var(--gray-400);
@@ -602,10 +630,27 @@
       display: none;
       text-align: center;
       padding: 20px;
-      color: var(--indigo-700);
+      color: var(--brand-purple);
       font-weight: 600;
       font-size: 1.05rem;
     }
+
+    /* hero form inputs — light theme on dark bg */
+    .hero-form-card .form-group input {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.25);
+      color: var(--white);
+    }
+    .hero-form-card .form-group input::placeholder { color: rgba(255,255,255,0.5); }
+    .hero-form-card .form-group input:focus { border-color: #ff8a99; }
+    .hero-form-card .form-group label { color: rgba(255,255,255,0.8); }
+    .hero-form-card .form-note { color: rgba(255,255,255,0.45); }
+    .hero-form-card .form-success { color: #ff8a99; }
+    .hero-form-card .form-submit {
+      background: var(--brand-magenta);
+      box-shadow: 0 4px 20px rgba(187,12,132,0.5);
+    }
+    .hero-form-card .form-submit:hover { background: var(--white); color: var(--brand-purple); }
 
     /* ===== FOOTER ===== */
     footer {
@@ -643,28 +688,54 @@
 <section class="hero">
   <div class="container">
     <div class="hero-badge">75 000 учеников уже изменили свой голос</div>
-    <h1>Стань человеком, которого невозможно <span class="highlight">не слушать</span></h1>
-    <p class="hero-sub">Тренировки голоса и речи в Telegram с живым педагогом. 15 минут в день — и ты другой человек через 2 месяца.</p>
-    <div class="hero-cta-group">
-      <a href="#form" class="btn-primary">Оставить заявку →</a>
-    </div>
-    <p class="hero-note">Консультант свяжется с тобой и подберёт тариф</p>
-    <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-num">75 000</div>
-        <div class="stat-label">учеников</div>
+    <div class="hero-content-wrap">
+      <div>
+        <h1>Стань человеком, которого невозможно <span class="highlight">не слушать</span></h1>
+        <p class="hero-sub">Тренировки голоса и речи в Telegram с живым педагогом. 15 минут в день — и ты другой человек через 2 месяца.</p>
+        <div class="hero-cta-group">
+          <a href="#form" class="btn-primary">Оставить заявку →</a>
+        </div>
+        <p class="hero-note">Консультант свяжется с тобой и подберёт тариф</p>
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-num">75 000</div>
+            <div class="stat-label">учеников</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">10+ лет</div>
+            <div class="stat-label">преподаёт Денис</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">15 мин</div>
+            <div class="stat-label">в день</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">24 ч</div>
+            <div class="stat-label">обратная связь</div>
+          </div>
+        </div>
       </div>
-      <div class="stat">
-        <div class="stat-num">10+ лет</div>
-        <div class="stat-label">преподаёт Денис</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">15 мин</div>
-        <div class="stat-label">в день</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">24 ч</div>
-        <div class="stat-label">обратная связь</div>
+      <div>
+        <div class="hero-form-card" id="hero-form-wrap">
+          <h3>Оставить заявку</h3>
+          <p>Консультант свяжется с тобой в течение нескольких часов</p>
+          <form id="hero-lead-form" onsubmit="submitForm(event, 'hero')">
+            <div class="form-group">
+              <label for="hero-name">Имя</label>
+              <input type="text" id="hero-name" name="name" placeholder="Как тебя зовут?" required />
+            </div>
+            <div class="form-group">
+              <label for="hero-contact">Телефон или Telegram</label>
+              <input type="text" id="hero-contact" name="contact" placeholder="+7 999 000 00 00 или @username" required />
+            </div>
+            <input type="hidden" name="plan" value="" />
+            <button type="submit" class="form-submit">Оставить заявку →</button>
+            <p class="form-note">Нажимая кнопку, ты соглашаешься с обработкой персональных данных</p>
+          </form>
+          <div class="form-success" id="hero-form-success">
+            ✅ Заявка принята! Консультант свяжется с тобой в ближайшее время.
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -743,7 +814,7 @@
       </div>
     </div>
     <div class="section-cta-inline">
-      <a href="#form" class="btn-primary">Записаться в ближайший поток →</a>
+      <a href="#form" class="btn-primary">Оставить заявку →</a>
     </div>
   </div>
 </section>
@@ -756,7 +827,7 @@
         <div class="teacher-photo">👨‍🏫</div>
       </div>
       <div>
-        <div class="section-label" style="color: var(--amber-400);">Педагог</div>
+        <div class="section-label" style="color: #ff8a99;">Педагог</div>
         <div class="teacher-name">Денис Швец</div>
         <div class="teacher-title">Педагог по голосу и речи · Автор методики</div>
         <p class="teacher-bio">
@@ -774,7 +845,7 @@
           <span class="badge">Методика с 2017</span>
         </div>
         <br>
-        <a href="#form" style="display:inline-block; background:var(--amber-500); color:var(--gray-900); padding:13px 26px; border-radius:10px; font-weight:700; text-decoration:none; margin-top:8px;">Начать с Денисом →</a>
+        <a href="#form" style="display:inline-block; background:var(--brand-magenta); color:var(--white); padding:13px 26px; border-radius:10px; font-weight:700; text-decoration:none; margin-top:8px; transition: background 0.2s;" onmouseover="this.style.background='var(--white)'; this.style.color='var(--brand-purple)';" onmouseout="this.style.background='var(--brand-magenta)'; this.style.color='var(--white)';">Оставить заявку →</a>
       </div>
     </div>
   </div>
@@ -791,35 +862,35 @@
       <div class="price-card">
         <div class="price-name">Стандарт</div>
         <div class="price-amount">$49</div>
-        <div class="price-period">в месяц</div>
+        <div class="price-period">в месяц · или $13 в неделю</div>
         <div class="price-annual">или $499 / год — экономия $89</div>
         <ul class="price-features">
           <li>Ежедневные задания в Telegram</li>
-          <li>Обратная связь от сертифицированного педагога в течение 24ч</li>
+          <li>Обратная связь от педагога в течение 24ч</li>
           <li>Еженедельные Zoom-сессии с Денисом</li>
           <li>YouTube-эфиры каждое воскресенье</li>
         </ul>
-        <button class="price-btn price-btn-secondary" onclick="openForm('Стандарт')">Начать за $49</button>
+        <button class="price-btn price-btn-secondary" onclick="scrollToForm()">Оставить заявку</button>
       </div>
       <!-- Premium -->
       <div class="price-card featured">
         <div class="price-popular">⭐ Популярный выбор</div>
-        <div class="price-name" style="color: var(--indigo-700);">Премиум</div>
+        <div class="price-name">Премиум</div>
         <div class="price-amount">$69</div>
-        <div class="price-period">в месяц</div>
+        <div class="price-period">в месяц · или $18 в неделю</div>
         <div class="price-annual">или $799 / год — экономия $29</div>
         <ul class="price-features">
           <li>Ежедневные задания в Telegram</li>
-          <li>Обратная связь от сертифицированного педагога в течение 24ч</li>
+          <li>Обратная связь от педагога в течение 24ч</li>
           <li>Еженедельные Zoom-сессии с Денисом</li>
           <li>YouTube-эфиры каждое воскресенье</li>
           <li class="extra"><strong>Обратная связь лично от Дениса Швеца</strong></li>
-          <li class="extra"><strong>Максимальный прогресс за счёт разбора от автора методики</strong></li>
+          <li class="extra"><strong>Максимальный прогресс — разбор от автора методики</strong></li>
         </ul>
-        <button class="price-btn price-btn-primary" onclick="openForm('Премиум')">Записаться в Премиум</button>
+        <button class="price-btn price-btn-primary" onclick="scrollToForm()">Оставить заявку</button>
       </div>
     </div>
-    <p class="price-trial">Хочешь попробовать? Одна неделя: <a href="#form" onclick="openForm('Стандарт — неделя')">Стандарт — $13</a> · <a href="#form" onclick="openForm('Премиум — неделя')">Премиум — $18</a></p>
+    <p class="price-note">Хочешь уточнить тариф? <a href="#form" onclick="scrollToForm()">Оставь заявку</a> — консультант поможет с выбором.</p>
   </div>
 </section>
 
@@ -889,7 +960,7 @@
     <div class="form-card">
       <h3>Оставить заявку</h3>
       <p>Ответим в течение нескольких часов</p>
-      <form id="lead-form" onsubmit="submitForm(event)">
+      <form id="lead-form" onsubmit="submitForm(event, 'main')">
         <div class="form-group">
           <label for="name">Имя</label>
           <input type="text" id="name" name="name" placeholder="Как тебя зовут?" required />
@@ -912,45 +983,48 @@
 <!-- FOOTER -->
 <footer>
   <div class="container">
-    <a href="#" class="logo">Indigo<span style="color:var(--amber-500)">Go</span></a>
+    <a href="#" class="logo">Indigo<span style="color:var(--brand-magenta)">Go</span></a>
     <p>© 2026 IndigoGo. Тренировка голоса и речи с живым педагогом.</p>
   </div>
 </footer>
 
 <script>
-  // FAQ toggle
   function toggleFaq(el) {
     el.classList.toggle('open');
-    const answer = el.nextElementSibling;
-    answer.classList.toggle('open');
+    el.nextElementSibling.classList.toggle('open');
   }
 
-  // Pre-select plan from pricing buttons
-  function openForm(planName) {
-    document.getElementById('selected-plan').value = planName;
+  function scrollToForm() {
     document.getElementById('form').scrollIntoView({ behavior: 'smooth' });
   }
 
-  // Form submission
-  async function submitForm(e) {
+  async function submitForm(e, source) {
     e.preventDefault();
-    const name = document.getElementById('name').value.trim();
-    const contact = document.getElementById('contact').value.trim();
-    const plan = document.getElementById('selected-plan').value;
+    const form = e.target;
+    const nameField = form.querySelector('[name="name"]');
+    const contactField = form.querySelector('[name="contact"]');
+    const planField = form.querySelector('[name="plan"]');
+    const name = nameField.value.trim();
+    const contact = contactField.value.trim();
+    const plan = planField ? planField.value : '';
 
     const WEBHOOK_URL = 'http://212.47.67.187:3200/lead';
-
     try {
       await fetch(WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, contact, plan, source: 'landing', ts: new Date().toISOString() }),
+        body: JSON.stringify({ name, contact, plan, source: 'landing-' + source, ts: new Date().toISOString() }),
         mode: 'no-cors'
       });
     } catch(_) {}
 
-    document.getElementById('lead-form').style.display = 'none';
-    document.getElementById('form-success').style.display = 'block';
+    if (source === 'hero') {
+      form.style.display = 'none';
+      document.getElementById('hero-form-success').style.display = 'block';
+    } else {
+      document.getElementById('lead-form').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+    }
   }
 </script>
 
