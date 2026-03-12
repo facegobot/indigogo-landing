@@ -938,7 +938,7 @@
     const contact = document.getElementById('contact').value.trim();
     const plan = document.getElementById('selected-plan').value;
 
-    const WEBHOOK_URL = 'https://hook.eu2.make.com/REPLACE_WITH_WEBHOOK'; // TODO: replace with real webhook
+    const WEBHOOK_URL = 'http://212.47.67.187:3200/lead';
 
     try {
       await fetch(WEBHOOK_URL, {
